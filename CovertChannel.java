@@ -7,10 +7,27 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
+
+// if (data.length == 3){
+// 	//read command
+// 	iobj = new InstructionObject(data[0], data[1], data[2]);
+// 	sys.getReferenceMonitor().executeRead(iobj);
+// 	iobj.printData();
+// 	printState(sys);
+// }else{
+// 	//write command
+// 	iobj = new InstructionObject(data[0], data[1], data[2], Integer.parseInt(data[3]));
+// 	sys.getReferenceMonitor().executeWrite(iobj);
+// 	iobj.printData();
+// 	printState(sys);
+// }
+
+
+
 public class CovertChannel {
 	private ReferenceMonitor rm = new ReferenceMonitor();
 	public static void main(String[] args) throws IOException {
-		SecureSystem sys = new SecureSystem();
+		SecureSystem cc = new CovertChannel();
 
 		// LOW and HIGH are constants defined in the SecurityLevel 
         	// class, such that HIGH dominates LOW.
@@ -18,40 +35,29 @@ public class CovertChannel {
 		SecurityLevel high = SecurityLevel.HIGH;
 
 		// We add two subjects, one high and one low.
-		sys.createSubject("Lyle", low);
-		sys.createSubject("Hal", high);
+		cc.createSubject("Lyle", low);
+		cc.createSubject("Hal", high);
 
 		// We add two objects, one high and one low.
-		sys.getReferenceMonitor().createNewObject("LObj", low);
-		sys.getReferenceMonitor().createNewObject("HObj", high);
+		// sys.getReferenceMonitor().createNewObject("LObj", low);
+		// sys.getReferenceMonitor().createNewObject("HObj", high);
 
 		System.out.printf("Reading from file: %s\n\n", args[0]);
 
-		Scanner sc = new Scanner(new File(args[0]));
-		String line = "";
+		FileInputStream inputstream = new FileInputStream(new File(args[0]));
+		int inputByte = 0;
 		//print filename here! ***
-		InstructionObject iobj;
-		while (sc.hasNextLine()){
-			line = sc.nextLine();
-			String[] data = validateCommand(line);
+		while (inputstream.available() > 0){
+			inputByte = inputstream.read();
 			if (data.length > 0){
-				if (data.length == 3){
-					//read command
-					iobj = new InstructionObject(data[0], data[1], data[2]);
-					sys.getReferenceMonitor().executeRead(iobj);
-					iobj.printData();
-					printState(sys);
-				}else{
-					//write command
-					iobj = new InstructionObject(data[0], data[1], data[2], Integer.parseInt(data[3]));
-					sys.getReferenceMonitor().executeWrite(iobj);
-					iobj.printData();
-					printState(sys);
+				for (int i = 7; i > -1; --i){
+					int bit = (inputByte >> i) & 1;
+					if (bit == 0)
+						sys.getReferenceMonitor().createNewObject("Hal", "obj");
+
+					//run Lyle stuffz
+					//maybe make methods for these instructions?
 				}
-			}else{
-				//print bad instructions
-				System.out.println("Bad Instruction");
-				printState(sys);
 			}
 		}
 	}
@@ -80,10 +86,10 @@ public class CovertChannel {
 		return this.rm;
 	}
 
-	public static void printState(SecureSystem sys){
+	public static void printState(SecureSystem cc){
 		System.out.println("The current state is:");
-		sys.getReferenceMonitor().printObjectValues();
-		sys.getReferenceMonitor().printSubjectValues();
+		cc.getReferenceMonitor().printObjectValues();
+		cc.getReferenceMonitor().printSubjectValues();
 		System.out.println();
 	}
 }
