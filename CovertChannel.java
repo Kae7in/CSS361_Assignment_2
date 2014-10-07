@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class SecureSystem {
+public class CovertChannel {
 	private ReferenceMonitor rm = new ReferenceMonitor();
 	public static void main(String[] args) throws IOException {
 		SecureSystem sys = new SecureSystem();
