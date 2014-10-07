@@ -18,8 +18,8 @@ class ReferenceMonitor {
 		this.subjectToLevel.put(subject_name.toLowerCase(), sl);
 	}
 
-	public void createNewObject(String object_name, SecurityLevel sl){
-		//Object_ obj = new Object_(object_name, sl);
+	public void createNewObject(String object_name, String subject_name){
+		SecurityLevel sl = subjectToLevel.get(subject_name);
 		this.objectToLevel.put(object_name.toLowerCase(), sl);
 		this.objManager.createObject(object_name, sl);
 	}
