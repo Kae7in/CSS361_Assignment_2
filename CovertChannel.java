@@ -8,6 +8,8 @@ import java.util.Map;
 
 
 
+// test
+
 // if (data.length == 3){
 // 	//read command
 // 	iobj = new InstructionObject(data[0], data[1], data[2]);
