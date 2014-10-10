@@ -22,7 +22,6 @@ class Subject {
 			covertFile.delete();
 			covertFile = new File(filename + ".out");
 		}
-    	// covertFile.createNewFile(); 
 		outputstream = new FileOutputStream(covertFile, true);
 	}
 
@@ -46,7 +45,7 @@ class Subject {
 		bitsReceived++;
 
 		if (bitsReceived == 8){
-			System.out.print(covertValue);
+			// System.out.print(covertValue);
 			outputstream.write(covertValue);
 			covertValue = 0;
 			bitsReceived = 0;

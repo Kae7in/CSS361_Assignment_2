@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,76 +10,82 @@ import java.util.Map;
 
 
 
-// if (data.length == 3){
-// 	//read command
-// 	iobj = new InstructionObject(data[0], data[1], data[2]);
-// 	sys.getReferenceMonitor().executeRead(iobj);
-// 	iobj.printData();
-// 	printState(sys);
-// }else{
-// 	//write command
-// 	iobj = new InstructionObject(data[0], data[1], data[2], Integer.parseInt(data[3]));
-// 	sys.getReferenceMonitor().executeWrite(iobj);
-// 	iobj.printData();
-// 	printState(sys);
-// }
-
-
-
 public class CovertChannel {
 	private ReferenceMonitor rm = new ReferenceMonitor();
 	public static void main(String[] args) throws IOException {
 		CovertChannel cc = new CovertChannel();
+		boolean verbose = false; //used to determine whether we will create a log file
 
 		// LOW and HIGH are constants defined in the SecurityLevel 
-        	// class, such that HIGH dominates LOW.
+        // class, such that HIGH dominates LOW.
 		SecurityLevel low  = SecurityLevel.LOW;
 		SecurityLevel high = SecurityLevel.HIGH;
 
 		//get file name as a string to pass with subject creation
 		String filename = "";
-		if (args[0].equals("v"))
+		if (args[0].equals("v")){
 			filename = args[1];
-		else
+			verbose = true;
+		}else{
 			filename = args[0];
+		}
 
 		// We add two subjects, one high and one low.
 		cc.createSubject("hal", high, filename);
-		cc.createSubject("lyle", low, filename); // lyle deltes hal's .out file, order is important
+		cc.createSubject("lyle", low, filename); // lyle deletes hal's .out file, order is important
 
-		// We add two objects, one high and one low.
-		// sys.getReferenceMonitor().createNewObject("LObj", low);
-		// sys.getReferenceMonitor().createNewObject("HObj", high);
 
-		System.out.printf("Reading from file: %s\n\n", filename);
 
 		FileInputStream inputstream = new FileInputStream(new File(filename));
+		File log = null;
+		FileWriter writer = null;
+		if (verbose){
+			log = new File("log");
+			if (log.exists()){
+				log.delete();
+				log = new File("log");
+			}
+			writer = new FileWriter(log);
+		}
+
 		int inputByte = 0;
-		//print filename here! ***
+		int totalBits = 0;
+
+		long startTime = System.nanoTime();
 		while (inputstream.available() > 0){
 			inputByte = inputstream.read();
-			// if (data.length > 0){
 				for (int i = 7; i > -1; --i){
 
 					int bit = (inputByte >> i) & 1;
-					// System.out.println(bit);
 					if (bit == 0) {
-						// cc.getReferenceMonitor().createNewObject("Hal", "obj");
 						cc.create("hal", "obj");
+
+						//write out to log
+						if (verbose)
+							writer.write("CREATE HAL OBJ\n");
 					}
 
 					cc.create("lyle", "obj");
 					cc.write("lyle", "obj", 1);
 					cc.read("lyle", "obj");
-					cc.destroy("obj");
+					cc.destroy("obj"); //should pass subject to do a check
 					cc.run();
 
-
-					//run Lyle stuffz
-					//maybe make methods for these instructions?
+					//write out to log
+					if (verbose){
+						writer.write("CREATE LYLE OBJ\n");
+						writer.write("WRITE LYLE OBJ 1\n");
+						writer.write("READ LYLE OBJ\n");
+						writer.write("DESTROY LYLE OBJ\n");
+						writer.write("RUN LYLE\n\n");
+					}
+					++totalBits;
 				}
-			// }creat
 		}
+		long estimatedTime = System.nanoTime() - startTime;
+		System.out.println("Estimated Average Bandwidth (bits/ms): " + (totalBits / (estimatedTime / 1000000)));
+		if (verbose)
+			writer.close();
 	}
 
 	public void run() throws IOException {
@@ -94,7 +101,6 @@ public class CovertChannel {
 	}
 
 	public void read(String subject_name, String object_name){
-		//success
 		getReferenceMonitor().executeRead(subject_name, object_name);
 	}
 
