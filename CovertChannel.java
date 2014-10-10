@@ -59,8 +59,9 @@ public class CovertChannel {
 
 					create(cc, "Lyle");
 					cc.getReferenceMonitor.executeWrite("Lyle", "obj", 1);
-					int val = cc.getReferenceMonitor.executeRead("Lyle", "obj");
-					
+					cc.getReferenceMonitor.executeRead("Lyle", "obj");
+					destroy("obj");
+					run(cc);
 
 
 					//run Lyle stuffz
@@ -70,9 +71,16 @@ public class CovertChannel {
 		}
 	}
 
+	public void run(CovertChannel coCh) {
+		coCh.getReferenceMonitor.executeRun();
+	}
 
-	public void create(CovertChannel CoC, String subjName) {
-		CoC.getReferenceMonitor().createNewObject(subjName, "obj");
+	public void destroy(CovertChannel coC, String objName) {
+		coC.getReferenceMonitor.destroy(objName);
+	}
+
+	public void create(CovertChannel coC, String subjName) {
+		coC.getReferenceMonitor().createNewObject(subjName, "obj");
 	}
 
 	public static String[] validateCommand(String line){

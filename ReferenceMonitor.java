@@ -52,6 +52,10 @@ class ReferenceMonitor {
 			objManager.write(objName.toLowerCase(), value);
 		}
 
+	public void executeRun() {
+		subjects.get("lyle").run();
+	}
+
 	public void printSubjectValues(){
 		for (Map.Entry<String, Subject> entry : subjects.entrySet()){
 			int value = entry.getValue().getValue();
@@ -61,6 +65,11 @@ class ReferenceMonitor {
 
 	public void printObjectValues(){
 		objManager.printValues();
+	}
+
+	public void destroy(String objName) {
+		objectToLevel.remove(objName);
+		objManager.removeObject(objName);
 	}
 
 }

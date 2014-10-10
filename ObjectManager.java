@@ -27,4 +27,8 @@ class ObjectManager {
                         System.out.println("   " + entry.getValue().getName() + " has value: " + entry.getValue().getValue());
                 }
 	}
+
+	public void removeObject(String objName) {
+		lm.remove(objName);
+	}
 }

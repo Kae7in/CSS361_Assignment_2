@@ -9,6 +9,7 @@ import java.util.Map;
 class Subject {
 	private String name;
 	private int value = 0;
+	private int covertValue = 0;
 
 	public Subject(String name){
 		this.name = name;
@@ -24,5 +25,9 @@ class Subject {
 
 	public int getValue() {
 		return this.value;
+	}
+
+	public void run() {
+		
 	}
 }
