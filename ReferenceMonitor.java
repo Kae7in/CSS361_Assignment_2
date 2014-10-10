@@ -12,16 +12,18 @@ class ReferenceMonitor {
 	private LinkedHashMap<String, Subject> subjects = new LinkedHashMap<String, Subject>(); //subject_name -> Subject
 	private ObjectManager objManager = new ObjectManager();	
 
-	public void createSubject(String subject_name, SecurityLevel sl){
-		Subject subj = new Subject(subject_name);
+	public void createSubject(String subject_name, SecurityLevel sl, String filename) throws IOException {
+		Subject subj = new Subject(subject_name, filename);
 		this.subjects.put(subject_name.toLowerCase(), subj);
 		this.subjectToLevel.put(subject_name.toLowerCase(), sl);
 	}
 
 	public void createNewObject(String subject_name, String object_name){
-		SecurityLevel sl = subjectToLevel.get(subject_name);
-		this.objectToLevel.put(object_name.toLowerCase(), sl);
-		this.objManager.createObject(object_name, sl);
+		if (!objectToLevel.containsKey(object_name)){
+			SecurityLevel sl = subjectToLevel.get(subject_name);
+			this.objectToLevel.put(object_name.toLowerCase(), sl);
+			this.objManager.createObject(object_name, sl);
+		}
 	}
 
 	//execute read
@@ -31,8 +33,9 @@ class ReferenceMonitor {
 		
 		if (subjectSL == null)
 			return;
-	
-		if (objectSL != null && subjectSL.dominates(objectSL)) {	
+
+		if (objectSL != null && subjectSL.dominates(objectSL)) {
+			//System.out.println("objManager.read(value)");	
 			subjects.get(subjName.toLowerCase()).updateValue(objManager.read(objName.toLowerCase()));
 		} else {
 			subjects.get(subjName.toLowerCase()).updateValue(0);
@@ -52,7 +55,7 @@ class ReferenceMonitor {
 			objManager.write(objName.toLowerCase(), value);
 		}
 
-	public void executeRun() {
+	public void executeRun() throws IOException {
 		subjects.get("lyle").run();
 	}
 

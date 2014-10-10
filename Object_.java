@@ -21,6 +21,7 @@ class Object_ {
 	}
 
 	public int getValue(){
+		//System.out.println("At read in object: " + value);
 		return this.value;
 	}
 

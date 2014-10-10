@@ -14,11 +14,12 @@ class ObjectManager {
 	}
 
 	public int read(String object_name){
+		//System.out.println("ObjectManager.getValue()");
 		return lm.get(object_name).getValue();
 	}
 
 	public void write(String object_name, int value){
-		lm.get(object_name).updateValue(value);
+		lm.get(object_name.toLowerCase()).updateValue(value);
 	}
 
 	public void printValues(){
