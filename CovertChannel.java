@@ -49,17 +49,24 @@ public class CovertChannel {
 		//print filename here! ***
 		while (inputstream.available() > 0){
 			inputByte = inputstream.read();
-			if (data.length > 0){
+			// if (data.length > 0){
 				for (int i = 7; i > -1; --i){
 					int bit = (inputByte >> i) & 1;
-					if (bit == 0)
+					if (bit == 0) {
 						// cc.getReferenceMonitor().createNewObject("Hal", "obj");
 						create(cc, "Hal");
+					}
+
+					create(cc, "Lyle");
+					cc.getReferenceMonitor.executeWrite("Lyle", "obj", 1);
+					int val = cc.getReferenceMonitor.executeRead("Lyle", "obj");
+					
+
 
 					//run Lyle stuffz
 					//maybe make methods for these instructions?
 				}
-			}
+			// }creat
 		}
 	}
 

@@ -25,32 +25,32 @@ class ReferenceMonitor {
 	}
 
 	//execute read
-	public void executeRead(InstructionObject iobj){
-		SecurityLevel subjectSL = subjectToLevel.get(iobj.getSubjectName().toLowerCase());
-		SecurityLevel objectSL = objectToLevel.get(iobj.getObjectName().toLowerCase());
+	public void executeRead(String subjName, String objName){
+		SecurityLevel subjectSL = subjectToLevel.get(subjName.toLowerCase());
+		SecurityLevel objectSL = objectToLevel.get(objName.toLowerCase());
 		
 		if (subjectSL == null)
 			return;
 	
 		if (objectSL != null && subjectSL.dominates(objectSL)) {	
-			subjects.get(iobj.getSubjectName().toLowerCase()).updateValue(objManager.read(iobj.getObjectName().toLowerCase()));
+			subjects.get(subjName.toLowerCase()).updateValue(objManager.read(objName.toLowerCase()));
 		} else {
-			subjects.get(iobj.getSubjectName().toLowerCase()).updateValue(0);
+			subjects.get(subjName.toLowerCase()).updateValue(0);
 		}
 
 	}
 
 	//execute write
-	public void executeWrite(InstructionObject iobj){
-		SecurityLevel subjectSL = subjectToLevel.get(iobj.getSubjectName().toLowerCase());
-                SecurityLevel objectSL = objectToLevel.get(iobj.getObjectName().toLowerCase());
+	public void executeWrite(String subjName, String objName, int value){
+		SecurityLevel subjectSL = subjectToLevel.get(subjName.toLowerCase());
+        SecurityLevel objectSL = objectToLevel.get(objName.toLowerCase());
 		
 		if (subjectSL == null)
 			return;
 		
 		if (objectSL != null && objectSL.dominates(subjectSL))
-			objManager.write(iobj.getObjectName().toLowerCase(), iobj.getValue());
-	}
+			objManager.write(objName.toLowerCase(), value);
+		}
 
 	public void printSubjectValues(){
 		for (Map.Entry<String, Subject> entry : subjects.entrySet()){
