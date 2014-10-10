@@ -8,8 +8,6 @@ import java.util.Map;
 
 
 
-// test
-
 // if (data.length == 3){
 // 	//read command
 // 	iobj = new InstructionObject(data[0], data[1], data[2]);
@@ -55,7 +53,8 @@ public class CovertChannel {
 				for (int i = 7; i > -1; --i){
 					int bit = (inputByte >> i) & 1;
 					if (bit == 0)
-						sys.getReferenceMonitor().createNewObject("Hal", "obj");
+						// cc.getReferenceMonitor().createNewObject("Hal", "obj");
+						create(cc, "Hal");
 
 					//run Lyle stuffz
 					//maybe make methods for these instructions?
@@ -64,6 +63,10 @@ public class CovertChannel {
 		}
 	}
 
+
+	public void create(CovertChannel CoC, String subjName) {
+		CoC.getReferenceMonitor().createNewObject(subjName, "obj");
+	}
 
 	public static String[] validateCommand(String line){
 		String[] data = line.split(" ");
