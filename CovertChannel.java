@@ -51,7 +51,7 @@ public class CovertChannel {
 		int inputByte = 0;
 		int totalBits = 0;
 
-		long startTime = System.nanoTime();
+		// long startTime = System.nanoTime();
 		while (inputstream.available() > 0){
 			inputByte = inputstream.read();
 				for (int i = 7; i > -1; --i){
@@ -82,8 +82,8 @@ public class CovertChannel {
 					++totalBits;
 				}
 		}
-		long estimatedTime = System.nanoTime() - startTime;
-		System.out.println("Estimated Average Bandwidth (bits/ms): " + (totalBits / (estimatedTime / 1000000)));
+		// long estimatedTime = System.nanoTime() - startTime;
+		// System.out.println("Estimated Average Bandwidth (bits/ms): " + (totalBits / (estimatedTime / 1000000)));
 		if (verbose)
 			writer.close();
 	}

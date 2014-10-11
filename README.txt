@@ -22,3 +22,9 @@ Text file (test2-ArtameneouleGrandCyrus.txt) was too big to paste here.
 
 [Output of test 2]
 Text file (test2-ArtameneouleGrandCyrus.txt.out) was too big to paste here.
+
+[Test File Times]
+Estimated Average Bandwidth of prideAndPrejudice (bits/ms): 2022
+Estimated Average Bandwidth of metamorphosis (bits/ms): 1963
+Estimated Average Bandwidth of test1 (bits/ms): 24
+Estimated Average Bandwidth of test2-ArtameneouleGrandCyrus (bits/ms): 1966
