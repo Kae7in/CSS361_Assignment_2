@@ -28,3 +28,12 @@ Estimated Average Bandwidth of prideAndPrejudice (bits/ms): 2022
 Estimated Average Bandwidth of metamorphosis (bits/ms): 1963
 Estimated Average Bandwidth of test1 (bits/ms): 24
 Estimated Average Bandwidth of test2-ArtameneouleGrandCyrus (bits/ms): 1966
+
+System Specifications:
+Ubuntu
+ - Release 12.04 (precise) 64-bit
+ - Kernel Linux 3.2.0-69-generic
+ - GNOME 3.4.2
+Hardware
+ - Memory: 15.6 GiB
+ - Processor: Intel Xeon(R) CPU E3-1270 V2 @ 3.50GHz x 8
